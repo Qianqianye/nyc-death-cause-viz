@@ -194,7 +194,7 @@ function createSpheres(allPoints) {
 function getSphere(pos,rad,c) {
   // var geometry = new THREE.SphereGeometry( rad, 20, 20 );
   // var material = new THREE.MeshBasicMaterial( { transparent:true, opacity:0.75, color: c} );
-  var material = new THREE.MeshBasicMaterial( { transparent:true, opacity:0.95, color: c} );
+  var material = new THREE.MeshBasicMaterial( { transparent:true, opacity:0.35, color: c} );
   var geometry = new THREE.SphereGeometry( rad,10,10 );
   // var geometry = new THREE.BoxGeometry( rad,rad,rad );
  
@@ -214,7 +214,7 @@ function genText(text, x) {
   var material = new THREE.MeshBasicMaterial({color: 0x888888});
   var geometry = new THREE.TextGeometry(text, textparam);
   var text =  new THREE.Mesh(geometry, material);
-  text.position.set(300, x * 200-2, -50);
+  text.position.set(300, x * 200-2, -40);
   text.rotation.set(0, 3.14/2, 3.14/2)
   textplane.add(text);
 
@@ -247,7 +247,7 @@ function genTextRace(text, x) {
   var material = new THREE.MeshBasicMaterial({color: 0x888888});
   var geometry = new THREE.TextGeometry(text, textparam);
   var text =  new THREE.Mesh(geometry, material);
-  text.position.set(x * 200-900, -10,  -20 );
+  text.position.set(x * 200-840, -10,  -40 );
   text.rotation.set( 3.14/2, 0,  0);
   textplane.add(text);
 
