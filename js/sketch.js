@@ -1,8 +1,8 @@
 var g_mesh;
 function initScene(scene, camera, controls, renderer) {
   // scene.fog = new THREE.FogExp2( 0x000000, 0.0009 );
-  controls.target.set(0, 0, 0);
-  camera.position.set(700,300,50)
+  controls.target.set(-700, 100, -1000);
+  camera.position.set(800,400,900);
 	controls.noZoom = false;
 	controls.noPan = false;
   renderer.setClearColor(new THREE.Color(0,0,0));
