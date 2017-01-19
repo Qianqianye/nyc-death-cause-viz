@@ -30,6 +30,7 @@ $( document ).ready(function() {
 
   
   scene_wrapper.add(getLegend());
+  scene_wrapper.add(getLegendGender());
   scene_wrapper.rotation.x = -3.1415/2
   scene_wrapper.position.z = 400
   scene_wrapper.position.x = -130
@@ -83,7 +84,7 @@ function createDemographic(data){
     } 
     
   }
-  // console.log(allDemographic);
+  console.log(allDemographic);
   return allDemographic;
 }
 
@@ -148,7 +149,7 @@ function countSexes(allDemographic){
       sexNum += 1;
     }
   }
-  // console.log(sexesMap);
+  console.log(sexesMap);
   return sexesMap;
 }
 
@@ -180,21 +181,26 @@ console.log(allPoints);
 
 function createSpheres(allPoints) {
     allPoints.forEach(function(point){
-    var pos = new THREE.Vector3(point.x*200-700, point.y*200, point.z*100);
-    var c = new THREE.Color(point.color*50, 0, 255); //assign data to color
-    // var rad = Math.pow(point.size*0.5,0.5); 
+      var c = new THREE.Color(50-point.color*50, 0, 255); 
+      var offset = point.color*50;
+    // var rad = Math.pow(point.size/6,0.5); 
     var rad = Math.pow(point.size * ( 3/(4*3.1415)), 1/3) * 2;
+    var pos = new THREE.Vector3(point.x*200-700, point.y*200+offset, point.z*100);
 
-    scene_wrapper.add(getSphere(pos,rad,c ));
-       // console.log(point);
-    })
-   
+        scene_wrapper.add(getSphere(pos,rad,c ));
+
+      // if (point.color === 1) { // c=0, make sphere
+      // } else { //make offset
+      //   var pos2 = new THREE.Vector3(point.x*200-700, point.y*200+30, point.z*100);
+      //   scene_wrapper.add(getSphere(pos2,rad,c ));
+      // }
+    })  
   }
 
 function getSphere(pos,rad,c) {
   // var geometry = new THREE.SphereGeometry( rad, 20, 20 );
   // var material = new THREE.MeshBasicMaterial( { transparent:true, opacity:0.75, color: c} );
-  var material = new THREE.MeshBasicMaterial( { transparent:true, opacity:0.35, color: c} );
+  var material = new THREE.MeshBasicMaterial( { transparent:true, opacity:0.75, color: c} );
   var geometry = new THREE.SphereGeometry( rad,10,10 );
   // var geometry = new THREE.BoxGeometry( rad,rad,rad );
  
@@ -279,7 +285,7 @@ function getLegend() {
   for( var i = 0; i < examples.length; i++ ) {
      var pos = new THREE.Vector3(50 * i,0, 0)
      var rad = Math.pow( examples[i] * ( 3/(4*3.1415)), 1/3) * 2;
-     rad = Math.pow( examples[i], 0.5);
+     // rad = Math.pow( examples[i]/6, 0.5);
      legend.add( getSphere(pos,rad, new THREE.Color(0x888888)) );
 
      var textparam = {
@@ -305,6 +311,47 @@ function getLegend() {
   return legend;
 }
 
+function getLegendGender() {
+  var legendGender = new THREE.Object3D();
+  var examples = [0,1];
+  var genderExample = ["Female", "Male"];
+
+  for( var i = 0; i < examples.length; i++ ) {
+      var c = new THREE.Color(50-examples[i]*50, 0, 255); 
+      var offset = examples[i] *50;
+      var rad = Math.pow(500,0.5); 
+      var pos = new THREE.Vector3(50 * i,0, 0)
+    // var rad = Math.pow(point.size * ( 3/(4*3.1415)), 1/3) * 2;
+      // var pos = new THREE.Vector3(point.x*200-700, point.y*200+offset, point.z*100);
+
+        legendGender.add(getSphere(pos,rad,c ));
+     // var pos = new THREE.Vector3(50 * i,0, 0)
+     // // var rad = Math.pow( examples[i] * ( 3/(4*3.1415)), 1/3) * 2;
+     // rad = Math.pow( examples[i]/6, 0.5);
+     // legendGender.add( getSphere(pos,rad, new THREE.Color(0x888888)) );
+
+     var textparam = {
+        size : 10, 
+        height: 1
+      }
+
+    var material = new THREE.MeshBasicMaterial({color: c});
+    var geometry = new THREE.TextGeometry(genderExample[i],textparam);
+
+    var text =  new THREE.Mesh(geometry, material);
+    text.position.copy(pos);
+    text.position.y -= 150;
+    text.position.x += 5;
+
+    text.rotation.set(0, 0, 3.14/2)
+    legendGender.add(text);
+
+  }
+  legendGender.rotation.y=3.1415/2;
+  legendGender.position.set(350,-250,500);
+
+  return legendGender;
+}
 
 function getcauseLabels(allDemographic) {
   var causelabels = new THREE.Object3D();
